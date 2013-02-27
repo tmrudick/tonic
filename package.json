@@ -1,0 +1,18 @@
+{
+  "name": "bourbon",
+  "version": "0.0.0",
+  "description": "bourbon\r =======",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tmrudick/bourbon.git"
+  },
+  "author": "Tom Rudick <tmrudick@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jade": "0.28.1"
+  }
+}
