@@ -31,6 +31,8 @@ function Bourbon(template, outputFile, options) {
 	this.running = false;
 }
 
+module.exports = exports = Bourbon;
+
 function _validateRequiredProperties(bourbon, properties) {
 	properties.forEach(function(property) {
 		if (!bourbon[property]) {
@@ -38,8 +40,6 @@ function _validateRequiredProperties(bourbon, properties) {
 		}
 	});
 }
-
-exports = Bourbon;
 
 Bourbon.prototype.jobs = function(dir) {
 	var self = this,
@@ -66,7 +66,7 @@ Bourbon.prototype.jobs = function(dir) {
 			return;
 		}
 
-		require(dir + '/' + file);
+		require(process.cwd() + '/' + dir + '/' + file);
 	})
 
 	if (this.running) { 
@@ -135,6 +135,7 @@ Bourbon.prototype.write = function() {
 
 	// If we have data for everything, write the file
 	if (write) {
+		self._queuedWrite = false;
 		var html = this.compiledTemplate(data);
 		fs.writeFileSync(this.outputFile, html, 'utf-8');
 	}
@@ -163,7 +164,3 @@ function _curry(self, func) {
 		func.apply(self, args.concat(Array.prototype.slice.call(arguments)));
 	};
 }
-
-var b = new Bourbon('template.jade', 'out.html');
-b.jobs('./jobs');
-b.start();
