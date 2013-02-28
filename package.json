@@ -13,6 +13,7 @@
   "author": "Tom Rudick <tmrudick@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "jade": "0.28.1"
+    "jade": "0.28.1",
+    "node-schedule": "0.1.6"
   }
 }
