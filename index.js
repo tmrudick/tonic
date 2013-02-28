@@ -60,6 +60,13 @@ Bourbon.prototype.jobs = function(dir) {
 		};
 	};	
 
+	global.job.skip = function(id) {
+		self._jobs[id] = {
+			data: {},
+			interval: '* * * * *'
+		}
+	};
+
 	files.forEach(function(file) {
 		// Don't do anything for non-js files
 		if (path.extname(file) !== '.js') {
@@ -104,7 +111,9 @@ function _runJob(job, callback) {
 	}
 
 	job.running = true;
-	job.func.call(null, callback);
+	if (job.func) { 
+		job.func.call(null, callback);
+	}
 }
 
 Bourbon.prototype.stop = function() {
