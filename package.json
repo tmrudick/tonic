@@ -1,7 +1,7 @@
 {
   "name": "bourbon",
   "version": "0.0.0",
-  "description": "bourbon\r =======",
+  "description": "A static site generator based on scheduled jobs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
