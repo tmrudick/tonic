@@ -1,7 +1,7 @@
 var fs = require('fs'),
 	jade = require('jade'),
 	path = require('path'),
-	schedule = require('node-schedule');
+	Job = require('./job');
 
 function Bourbon(template, outputFile, options) {
 	// options:
@@ -23,7 +23,9 @@ function Bourbon(template, outputFile, options) {
 	_validateRequiredProperties(this, ['template', 'outputFile']);
 
 	var templateSource = fs.readFileSync(template);
-	this.compiledTemplate = jade.compile(templateSource);
+	var fullPath = path.resolve(template);
+
+	this.compiledTemplate = jade.compile(templateSource, { filename: fullPath });
 
 	this._jobs = {};
 	this._queuedWrite = false;
@@ -46,26 +48,15 @@ Bourbon.prototype.jobs = function(dir) {
 		files = fs.readdirSync(dir);
 
 	// Set up the global function for this job to use
-	global.job = function(id, description, interval, func) {
+	global.job = function(id, interval, func) {
 		if (self._jobs[id]) {
 			throw new Error("Job with id '" + id + "' already exists.");
 		}
 
-		self._jobs[id] = {
-			id: id,
-			description: description,
-			interval: interval,
-			func: func,
-			started: false
-		};
+		// Create a new job and return it so that we can do method chaining
+		self._jobs[id] = new Job(id, interval, func);
+		return self._jobs[id];
 	};	
-
-	global.job.skip = function(id) {
-		self._jobs[id] = {
-			data: {},
-			interval: '* * * * *'
-		}
-	};
 
 	files.forEach(function(file) {
 		// Don't do anything for non-js files
@@ -76,45 +67,28 @@ Bourbon.prototype.jobs = function(dir) {
 		require(process.cwd() + '/' + dir + '/' + file);
 	})
 
-	if (this.running) { 
-		this.start(); 
-	}
+	// Tear down the global
+	delete global.job;
 };
 
 Bourbon.prototype.start = function() {
 	var self = this,
 	    jobs = Object.keys(this._jobs);
 
+	// Set Bourbon into a running mode
 	this.running = true;
 
+	var callback = function() {
+		if (!this.updateInterval || this._queuedWrite) {
+			self.write();
+		}	
+	};
+
+	// For each job, start it
 	jobs.forEach(function(id) {
-		var job = self._jobs[id];
-
-		if (!job.started) {
-			var callback = _curry(self, _completedJobCallback, job.id);
-
-			// Run the job once
-			_runJob(job, callback);
-
-			// Schedule the job based on the interval
-			// TODO: How to schedule?
-			job.started = true;
-			job.scheduled = schedule.scheduleJob(job.interval, _curry(null, _runJob, job, callback));
-		}
+		self._jobs[id].start(callback);
 	});
 };
-
-function _runJob(job, callback) {
-	// Don't kick off the job again if it is still running
-	if (job.running) {
-		return;
-	}
-
-	job.running = true;
-	if (job.func) { 
-		job.func.call(null, callback);
-	}
-}
 
 Bourbon.prototype.stop = function() {
 	// TODO: Stop all scheduled jobs and don't run new jobs
@@ -132,7 +106,11 @@ Bourbon.prototype.write = function() {
 	// job yet, wait until we do so we don't have weird
 	// values everywhere.
 	var write = jobIds.every(function(id) {
-		data[id] = self._jobs[id].data;
+		if (!self._jobs[id].enabled) {
+			return true;
+		}
+
+		data[id] = self._jobs[id]._data;
 
 		if (!data[id]) {
 			self._queuedWrite = true;
@@ -149,27 +127,3 @@ Bourbon.prototype.write = function() {
 		fs.writeFileSync(this.outputFile, html, 'utf-8');
 	}
 };
-
-function _completedJobCallback(jobId, data) {
-	// NOTE: this === Bourbon for curried calls
-	// TODO: is that the right thing to do here?
-
-	// TODO: Complete this method to get in the data and 
-	// optionally run jade over the template file
-	this._jobs[jobId].data = data;
-	this._jobs[jobId].running = false;
-
-	// If there isn't any update interval, then write
-	// out as soon as we have enough data for every
-	// running job.
-	if (!this.updateInterval || this._queuedWrite) {
-		this.write();
-	}
-}
-
-function _curry(self, func) {
-	var args = Array.prototype.slice.call(arguments, 2);
-	return function() {
-		func.apply(self, args.concat(Array.prototype.slice.call(arguments)));
-	};
-}
