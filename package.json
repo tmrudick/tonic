@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "bourbon": "./bin/bourbon"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tmrudick/bourbon.git"
@@ -14,6 +17,8 @@
   "license": "MIT",
   "dependencies": {
     "jade": "0.28.1",
-    "node-schedule": "0.1.6"
+    "node-schedule": "0.1.6",
+    "commander": "1.1.1",
+    "ncp": "0.4.0"
   }
 }

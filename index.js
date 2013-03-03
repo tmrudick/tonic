@@ -47,6 +47,9 @@ Bourbon.prototype.jobs = function(dir) {
 	var self = this,
 		files = fs.readdirSync(dir);
 
+	// Just make sure that we have an absolute path
+	dir = path.resolve(dir);
+
 	// Set up the global function for this job to use
 	global.job = function(id, interval, func) {
 		if (self._jobs[id]) {
@@ -64,7 +67,7 @@ Bourbon.prototype.jobs = function(dir) {
 			return;
 		}
 
-		require(process.cwd() + '/' + dir + '/' + file);
+		require(path.join(dir, file));
 	})
 
 	// Tear down the global

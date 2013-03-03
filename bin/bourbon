@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+var program = require('commander'),
+	path = require('path'),
+	fs = require('fs'),
+	ncp = require('ncp'),
+	Bourbon = require('../index.js');
+
+program
+	.version('0.0.0');
+
+var template_folder = path.join(__dirname, '../template');
+
+program
+	.command('new <path>')
+	.action(function(dest, options) {
+		dest = path.resolve(dest);
+
+		ncp(template_folder, dest, function(err) {
+			if (err) {
+				return console.error(err)
+			}
+
+			console.log('Bourbon site created successfully')
+		});
+	});
+
+program
+	.command('run [path]')
+	.option('-i, --interval <seconds>', 'Number of seconds between writing new pages as data is loaded')
+	.action(function(dir, options) {
+		dir = dir || process.cwd();
+		dir = path.resolve(dir);
+
+		var template = path.join(dir, 'templates/index.jade');
+		var jobs = path.join(dir, 'jobs');
+		var output = path.join(dir, 'public/index.html');
+
+		// Create a new bourbon object
+		var bourbon = new Bourbon(template, output, {});
+
+		// Add the jobs directory
+		bourbon.jobs(jobs);
+
+		// Start it off
+		bourbon.start();
+	});
+
+program.parse(process.argv);

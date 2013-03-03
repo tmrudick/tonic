@@ -25,9 +25,6 @@ Job.prototype.start = function(executed) {
 	// Schedule the job to execute
 	this.started = true;
 
-	// Setup the schedule for the job
-	this.schedule = schedule.scheduleJob(this.interval, _runJob);
-
 	var _callback = function(results) {
 		// Mark the job as no longer running
 		self.running = false;
@@ -65,6 +62,10 @@ Job.prototype.start = function(executed) {
 
 	// Run the job once right away
 	_runJob();
+
+	// Setup the schedule for the job
+	this.schedule = schedule.scheduleJob(this.interval, _runJob);
+
 };
 
 Job.prototype.stop = function() {
