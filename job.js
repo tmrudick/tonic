@@ -15,7 +15,7 @@ module.exports = exports = Job;
 
 // Sets the retention policy for jobs that return an array of data
 Job.prototype.expiration = function(count) {
-	this.expiration = count;
+	this.expiration_count = count;
 
 	return this;
 };
@@ -32,14 +32,14 @@ Job.prototype.start = function(executed) {
 
 		// Process the returned value
 		if (results instanceof Array) { // Case where we are returning an array, probably time-series data
-			if (!self._data instanceof Array || self.expiration === 0) {
+			if (!self._data || !(self._data instanceof Array) || self.expiration_count === 0) {
 				self._data = results; // If self._data isn't an array, replace it
 			}  else {
-				self._data.push(results);
+				self._data = results.concat(self._data);
 			}
 
-			if (self.expiration > 0) { // If we have a expiration policy, enforce it on the data
-				self._data = self._data.slice(self.retention);
+			if (self.expiration_count > 0) { // If we have a expiration policy, enforce it on the data
+				self._data = self._data.slice(self.expiration_count);
 			}
 		} else if (results) {
 			// If we have results but it isn't an array, just
