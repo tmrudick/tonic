@@ -64,13 +64,16 @@ Job.prototype.start = function(executed) {
 	_runJob();
 
 	// Setup the schedule for the job
-	this.schedule = schedule.scheduleJob(this.interval, _runJob);
-
+	// Use setTimeout if short time is specified 
+	var cron = _textToCron(this.interval);
+	if (cron) {
+		this.schedule = schedule.scheduleJob(cron, _runJob);
+	}
 };
 
 Job.prototype.stop = function() {
 	this.running = false;
-	this.schedule.cancel();
+	this.schedule && this.schedule.cancel();
 };
 
 // Allows us to do job(...).disable();
@@ -86,3 +89,29 @@ Job.prototype.enable = function() {
 
 	return this;
 };
+
+function _textToCron(text) {
+	// If a user types 5min then we want the job to run every 5 minutes.
+	// Same with hours or days. Acceptable values are:
+	// 10m, 10minutes, 10 minutes, 1 day, once
+	var units = { 
+		"m": '*/%d * * * *',
+		"h": '0 */%d * * *',
+		"d": '0 0 */%d * *'
+	};
+
+	// Return null if the user only wants to run something once
+	if (text === "once") {
+		null;
+	}
+
+	Object.keys(units).forEach(function(key) {
+		var idx = text.indexOf(key);
+		if (idx > 0) {
+			var value = +text.substring(0, idx);
+			return util.format(units[key], value);
+		}
+	});
+
+	return text;
+}
