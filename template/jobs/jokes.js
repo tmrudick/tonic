@@ -1,5 +1,5 @@
 // This job will randomly output a new quote every minute
-job('bad_joke', '* * * * *', function(done) {
+job('bad_joke', '1min', function(done) {
 	// Define a few bad jokes in an array
 	var jokes = [
 		"Did you hear about the angry pancake? He just flipped.",

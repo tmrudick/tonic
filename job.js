@@ -1,4 +1,5 @@
-var schedule = require('node-schedule');
+var schedule = require('node-schedule'),
+	util = require('util');
 
 function Job(id, interval, func) {
 	this.id = id;
@@ -102,14 +103,15 @@ function _textToCron(text) {
 
 	// Return null if the user only wants to run something once
 	if (text === "once") {
-		null;
+		return null;
 	}
 
 	Object.keys(units).forEach(function(key) {
 		var idx = text.indexOf(key);
+
 		if (idx > 0) {
-			var value = +text.substring(0, idx);
-			return util.format(units[key], value);
+			var value = text.substring(0, idx);
+			text = util.format(units[key], value);
 		}
 	});
 
