@@ -4,7 +4,7 @@ var program = require('commander'),
 	path = require('path'),
 	fs = require('fs'),
 	ncp = require('ncp'),
-	Bourbon = require('../index.js');
+	Bourbon = require('../lib/bourbon.js');
 
 program
 	.version('0.0.0');
@@ -28,6 +28,7 @@ program
 program
 	.command('run [path]')
 	.option('-i, --interval <seconds>', 'Number of seconds between writing new pages as data is loaded')
+	.option('--json <path>', 'JSON file to use for loading and saving data')
 	.action(function(dir, options) {
 		dir = dir || process.cwd();
 		dir = path.resolve(dir);
@@ -37,7 +38,9 @@ program
 		var output = path.join(dir, 'public/index.html');
 
 		// Create a new bourbon object
-		var bourbon = new Bourbon(template, output, {});
+		var bourbon = new Bourbon(template, output, {
+			json: options.json
+		});
 
 		// Add the jobs directory
 		bourbon.jobs(jobs);
