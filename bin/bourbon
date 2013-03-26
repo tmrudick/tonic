@@ -33,7 +33,7 @@ program
 		dir = dir || process.cwd();
 		dir = path.resolve(dir);
 
-		var template = path.join(dir, 'templates/index.jade');
+		var template = path.join(dir, 'templates/index.hbs');
 		var jobs = path.join(dir, 'jobs');
 		var output = path.join(dir, 'public/index.html');
 
