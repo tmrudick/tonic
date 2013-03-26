@@ -1,6 +1,6 @@
 {
   "name": "bourbon",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A static site generator based on scheduled jobs",
   "main": "lib/bourbon.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "author": "Tom Rudick <tmrudick@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "jade": "0.28.1",
+    "handlebars": "1.0.10",
     "node-schedule": "0.1.6",
     "commander": "1.1.1",
     "ncp": "0.4.0"
