@@ -31,18 +31,23 @@ program
         var dir = dir || process.cwd();
         dir = path.resolve(dir);
 
-        // TODO: Handle error case where this file doesn't exist
-        var config = require(path.join(dir, 'config.json'));
+        // If a script named app.js exists, run that instead
+        if (fs.existsSync(path.join(dir, 'app.js'))) {
+            require(path.join(dir, 'app.js'));
+        } else {
+            // TODO: Handle error case where this file doesn't exist
+            var config = require(path.join(dir, 'config.json'));
 
-        var bourbon = new Bourbon(config.templates, {
-            cache: config.cache
-        });
+            var bourbon = new Bourbon(config.templates, {
+                cache: config.cache
+            });
 
-        // Add the jobs directory
-        bourbon.jobs(jobs);
+            // Add the jobs directory
+            bourbon.jobs(jobs);
 
-        // Start it off
-        bourbon.start();
+            // Start it off
+            bourbon.start();
+        }
     });
 
 program.parse(process.argv);
