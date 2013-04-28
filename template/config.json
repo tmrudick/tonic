@@ -1,5 +1,11 @@
 {
-	"twitter": {
-		"access_token": "My Secret Access Token"
-	}
+    "cache": "data.json",
+    "templates": [
+        { "template": "index.hbs", "filename": "index.html" }
+    ],
+    "tokens": {
+        "twitter": {
+            "access_token": "My Secret Access Token"
+       }
+    }
 }
