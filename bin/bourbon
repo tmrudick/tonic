@@ -21,6 +21,11 @@ program
                 return console.error(err)
             }
 
+            // npm removes the .gitignore files on install (understandably) so
+            // we will rename gitignore -> .gitignore.
+            fs.renameSync(path.join(dest, 'gitignore'), 
+                          path.join(dest, '.gitignore'));
+
             console.log('Bourbon site created successfully')
         });
     });
