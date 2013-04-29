@@ -35,18 +35,24 @@ program
         if (fs.existsSync(path.join(dir, 'app.js'))) {
             require(path.join(dir, 'app.js'));
         } else {
-            // TODO: Handle error case where this file doesn't exist
-            var config = require(path.join(dir, 'config.json'));
+            var config_path = path.join(dir, 'config.json');
 
-            var bourbon = new Bourbon(config.templates, {
-                cache: config.cache
-            });
+            if (fs.existsSync(config_path)) {
+                var config = require(config_path);
 
-            // Add the jobs directory
-            bourbon.jobs(jobs);
+                var bourbon = new Bourbon(config.templates, {
+                    cache: config.cache
+                });
 
-            // Start it off
-            bourbon.start();
+                // Add the jobs directory
+                var jobs = path.join(dir, 'jobs');
+                bourbon.jobs(jobs);
+
+                // Start it off
+                bourbon.start();
+            } else {
+                throw new Error('Could not start website: config.json is missing.');
+            }
         }
     });
 
