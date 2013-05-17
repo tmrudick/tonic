@@ -23,7 +23,7 @@ program
 
             // npm removes the .gitignore files on install (understandably) so
             // we will rename gitignore -> .gitignore.
-            fs.renameSync(path.join(dest, 'gitignore'), 
+            fs.renameSync(path.join(dest, 'gitignore'),
                           path.join(dest, '.gitignore'));
 
             console.log('Bourbon site created successfully')
@@ -32,6 +32,7 @@ program
 
 program
     .command('run [path]')
+    .option('-c, --cached', 'render template from cache and exit')
     .action(function(dir, options) {
         var dir = dir || process.cwd();
         dir = path.resolve(dir);
@@ -46,7 +47,8 @@ program
                 var config = require(config_path);
 
                 var bourbon = new Bourbon(config.templates, {
-                    cache: config.cache
+                    cache: config.cache,
+                    offline: options.cached
                 });
 
                 // Add the jobs directory
