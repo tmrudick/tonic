@@ -4,7 +4,7 @@ var program = require('commander'),
     path = require('path'),
     fs = require('fs'),
     ncp = require('ncp'),
-    Bourbon = require('../lib/bourbon.js');
+    Bourbon = require('../lib/tonic.js');
 
 program
     .version('0.0.1');
@@ -26,7 +26,7 @@ program
             fs.renameSync(path.join(dest, 'gitignore'),
                           path.join(dest, '.gitignore'));
 
-            console.log('Bourbon site created successfully')
+            console.log('Tonic site created successfully')
         });
     });
 
@@ -46,17 +46,17 @@ program
             if (fs.existsSync(config_path)) {
                 var config = require(config_path);
 
-                var bourbon = new Bourbon(config.templates, {
+                var tonic = new Tonic(config.templates, {
                     cache: config.cache,
                     offline: options.cached
                 });
 
                 // Add the jobs directory
                 var jobs = path.join(dir, 'jobs');
-                bourbon.jobs(jobs);
+                tonic.jobs(jobs);
 
                 // Start it off
-                bourbon.start();
+                tonic.start();
             } else {
                 throw new Error('Could not start website: config.json is missing.');
             }

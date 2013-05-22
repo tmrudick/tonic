@@ -1,8 +1,8 @@
 {
-  "name": "Bourbon Website",
+  "name": "Tonic Website",
   "private": true,
   "version": "0.0.1",
-  "description": "My Bourbon Website",
+  "description": "My Tonic Website",
   "dependencies": {
   }
 }

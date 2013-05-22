@@ -1,17 +1,17 @@
 {
-  "name": "bourbon",
-  "version": "0.0.2",
-  "description": "A static site generator based on scheduled jobs",
-  "main": "lib/bourbon.js",
+  "name": "tonic",
+  "version": "0.0.1",
+  "description": "A static site generator based on scheduled tasks",
+  "main": "lib/tonic.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "bourbon": "./bin/bourbon"
+    "tonic": "./bin/tonic"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tmrudick/bourbon.git"
+    "url": "https://github.com/tmrudick/tonic.git"
   },
   "author": "Tom Rudick <tmrudick@gmail.com>",
   "license": "MIT",
