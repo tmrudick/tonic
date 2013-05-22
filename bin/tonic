@@ -4,7 +4,7 @@ var program = require('commander'),
     path = require('path'),
     fs = require('fs'),
     ncp = require('ncp'),
-    Bourbon = require('../lib/tonic.js');
+    Tonic = require('../lib/tonic.js');
 
 program
     .version('0.0.1');
