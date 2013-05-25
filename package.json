@@ -17,8 +17,9 @@
   "license": "MIT",
   "dependencies": {
     "handlebars": "1.0.10",
-    "node-schedule": "0.1.6",
     "commander": "1.1.1",
-    "ncp": "0.4.0"
+    "ncp": "0.4.0",
+    "winston": "~0.7.1",
+    "cron": "~1.0.1"
   }
 }
