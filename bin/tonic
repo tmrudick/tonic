@@ -48,7 +48,8 @@ program
 
                 var tonic = new Tonic(config.templates, {
                     cache: config.cache,
-                    offline: options.cached
+                    offline: options.cached,
+                    timezone: config.timezone
                 });
 
                 // Add the jobs directory
