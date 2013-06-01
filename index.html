@@ -19,7 +19,7 @@
 
         <header>
           <h1>tonic.js</h1>
-          <h2>your own personal dashboard</h2>
+          <h2>Your Own Personal Dashboard</h2>
         </header>
 
         <section id="downloads" class="clearfix">
@@ -31,72 +31,85 @@
         <hr>
 
         <section id="main_content">
-          <h3><a name="building-a-personal-dashboard" class="anchor" href="#building-a-personal-dashboard"><span class="octicon octicon-link"></span></a>Building a Personal Dashboard.</h3>
-          <p>Building a personal dashboard is easy with tonic. Easily aggregate data from disparate APIs and generate a static website on a schedule.
+          <h1>
+<a name="tonicjs" class="anchor" href="#tonicjs"><span class="octicon octicon-link"></span></a>tonic.js</h1>
 
-          <h3><a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started.</h3>
+<p>tonic.js is a node.js framework to help build websites which contain near real-time data that is retrieved from third-party APIs. This makes it especially suited for making personal dashboards or personal websites with embedded data.</p>
 
-          <p>Before you get started, you need to install node.js and npm.</p>
+<p>Almost any datasource can be used from within tonic.js as long as it is accessible from the computer running the tonic executable. Some example datasources are Fitbit data, Yelp reviews, Facebook or Foursquare checkins, Tumblr posts, and Goodreads history. If you can write some JavaScript to access it, you can use it!</p>
 
-          <h4><a name="install-tonic" class="anchor" href="#install-tonic"><span class="octicon octicon-link"></span></a>Install tonic.</h4>
+<p>tonic.js works on OS X, Windows, and Linux.</p>
 
-          <pre><code>$ npm install -g tonic</code></pre>
+<h2>
+<a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How It Works</h2>
 
-          <h4><a name="install-tonic" class="anchor" href="#install-tonic"><span class="octicon octicon-link"></span></a>Creating Your First tonic Website.</h4>
+<h2>
+<a name="why-static" class="anchor" href="#why-static"><span class="octicon octicon-link"></span></a>Why Static?</h2>
 
-          <pre><code>$ tonic new MyFirstTonicWebsite</code></pre>
+<h2>
+<a name="getting-starting" class="anchor" href="#getting-starting"><span class="octicon octicon-link"></span></a>Getting Starting</h2>
 
-          <p>You will now have a brand new tonic website in the directory MyFirstTonicWebsite. This website is a skeleton of a tonic website that will update a page every minute with a really bad pun.</p>
-
-          <h4><a name="install-tonic" class="anchor" href="#install-tonic"><span class="octicon octicon-link"></span></a>Running Your tonic Website.</h4>
-
-          <pre><code>$ tonic run MyFirstTonicWebsite</code></pre>
-
-          <h4><a name="install-tonic" class="anchor" href="#install-tonic"><span class="octicon octicon-link"></span></a>Viewing Your tonic Website</h4>
-
-          <p>Open the index.html file in the directory MyFirstTonicWebsite/public/index.html.</p>
-
-          <p>While tonic is running, this page will be updated every minute with a new joke.</p>
-
-          <h3><a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Customizing Your tonic Website.</h3>
-
-          <h3><a name="jobs" class="anchor" href="#jobs"><span class="octicon octicon-link"></span></a>Jobs.</h3>
-          <p>A job is a small piece of JavaScript which will execute periodically to get data from an API.</p>
-          <p>This job will run every 20 minutes. Once your logic has completed, pass your data into the <code>done</code> callback so that it can be displayed on your site.</p>
-          <pre><code>job('my_new_job', '20 min', function(done) {
-    // Logic to get data
-    done(data);
-});</code></pre>
-
-          <h3><a name="why-static" class="anchor" href="#why-static"><span class="octicon octicon-link"></span></a>Why Static Pages?</h3>
-
-          <p>The goal of tonic.js is to be easy to setup and easy to run. By generating static pages, tonic allows users to forget about setting up an application server or configuring a database. All you have to do is run <code>tonic run</code> from the command line and your site is ready to go.</p>
-
-          <p>Tonic can be run on your own server, Heroku, or Azure.</p>
-
-          <p>Most of the design inspiration for this project was based on the principles of other software such as Jekyll, Wintersmith, and Dasher.</p>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>Before you get started, you must already have <a href="http://nodejs.org/">node.js</a> installed.</p>
 
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<pre><code>$ npm install -g tonic
+</code></pre>
 
 <h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<a name="creating-a-website" class="anchor" href="#creating-a-website"><span class="octicon octicon-link"></span></a>Creating a Website</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<pre><code>$ tonic new MyTonicWebsite
+</code></pre>
+
+<p>This will create a skeleton website. The site contains a single job which will update the main page of the website every minute with a bad joke.</p>
 
 <h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a name="running-your-website" class="anchor" href="#running-your-website"><span class="octicon octicon-link"></span></a>Running Your Website</h3>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<pre><code>$ tonic run MyTonicWebsite
+</code></pre>
+
+<p>Once tonic is running, you can open index.html within the site's public directory. This page will update once a minute as long as tonic is running.</p>
+
+<p>Note that whenever you run the tonic command, all jobs will immediately run even if they are only scheduled to run at a specific time of day.</p>
+
+<h2>
+<a name="website-folder-structure" class="anchor" href="#website-folder-structure"><span class="octicon octicon-link"></span></a>Website Folder Structure</h2>
+
+<h2>
+<a name="writing-jobs" class="anchor" href="#writing-jobs"><span class="octicon octicon-link"></span></a>Writing Jobs</h2>
+
+<h2>
+<a name="writing-tempates" class="anchor" href="#writing-tempates"><span class="octicon octicon-link"></span></a>Writing Tempates</h2>
+
+<h2>
+<a name="deployment" class="anchor" href="#deployment"><span class="octicon octicon-link"></span></a>Deployment</h2>
+
+<p>You can easily deploy the static pages generated by tonic to any webserer, however, it makes more sense to have your site automatically update. In order to do this, you need to have a server that supports node.js.</p>
+
+<h3>
+<a name="deploying-to-your-own-server" class="anchor" href="#deploying-to-your-own-server"><span class="octicon octicon-link"></span></a>Deploying to your own server</h3>
+
+<p>If you have access to your own server where you can run processes, this is by far the easiest deployment method. Simply follow the same process as above and configure your webserver to serve static files from your site's public directory.</p>
+
+<p>It is also probably a good idea to use something like <a href="http://upstart.ubuntu.com/">upstart</a> or <a href="https://github.com/nodejitsu/forever">forever</a>.</p>
+
+<h3>
+<a name="deploying-to-heroku" class="anchor" href="#deploying-to-heroku"><span class="octicon octicon-link"></span></a>Deploying to Heroku</h3>
+
+<p>TODO</p>
+
+<h3>
+<a name="deploying-to-windows-azure" class="anchor" href="#deploying-to-windows-azure"><span class="octicon octicon-link"></span></a>Deploying to Windows Azure</h3>
+
+<p>TODO</p>
+
+<h3>
+<a name="deploying-elsewhere" class="anchor" href="#deploying-elsewhere"><span class="octicon octicon-link"></span></a>Deploying Elsewhere</h3>
+
+<p>Probably possible, feel free to update this with anything else that has worked for you.</p>
         </section>
 
         <footer>
@@ -104,7 +117,7 @@
           This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
         </footer>
 
-
+        
       </div>
     </div>
   </body>
