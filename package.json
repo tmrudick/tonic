@@ -1,6 +1,6 @@
 {
   "name": "tonic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A static site generator based on scheduled tasks",
   "main": "lib/tonic.js",
   "scripts": {
