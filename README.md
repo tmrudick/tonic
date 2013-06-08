@@ -13,6 +13,8 @@ How It Works
 Why Static?
 -----------
 
+The goal of tonic was to create an extremely easy to way to build and deploy dashboard websites. Having to run and properly configure an application server and a database seems like overkill just to beable to show the last five albums I listened to on my website. I took inspiration from Jekyll and Wintersmith and decided that static site generation was the way to go. Although you do still have to run tonic on your server (at least once a day), I felt that running a single command is way easier than the knowledge required to run other solutions.
+
 Getting Starting
 ----------------
 
