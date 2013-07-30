@@ -4,7 +4,8 @@ var program = require('commander'),
     path = require('path'),
     fs = require('fs'),
     ncp = require('ncp'),
-    Tonic = require('../lib/tonic.js');
+    Tonic = require('../lib/tonic.js'),
+    winston = require('winston');
 
 program
     .version('0.0.1');
@@ -33,9 +34,17 @@ program
 program
     .command('run [path]')
     .option('-c, --cached', 'render template from cache and exit')
+    .option('-d, --debug', 'print all log messaged to stdout')
     .action(function(dir, options) {
         var dir = dir || process.cwd();
         dir = path.resolve(dir);
+
+        // Set up logging
+
+        // Add a console logger with timestamps and exception handling
+        winston.remove(winston.transports.Console); // Remove the default console logger
+        winston.add(winston.transports.Console, {timestamp: true, handleExceptions: true, level: options.debug ? 'debug' : 'error' });
+        winston.exitOnError = false; // Don't exit on uncaught exceptions
 
         // If a script named app.js exists, run that instead
         if (fs.existsSync(path.join(dir, 'app.js'))) {
