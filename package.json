@@ -16,7 +16,6 @@
   "author": "Tom Rudick <tmrudick@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "handlebars": "1.0.10",
     "commander": "1.1.1",
     "ncp": "0.4.0",
     "winston": "~0.7.1",
