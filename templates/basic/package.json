@@ -1,0 +1,8 @@
+{
+  "name": "Tonic Application",
+  "private": true,
+  "version": "0.0.1",
+  "description": "My Tonic Application",
+  "dependencies": {
+  }
+}
