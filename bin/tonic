@@ -10,14 +10,17 @@ var program = require('commander'),
 program
     .version('0.0.1');
 
-var template_folder = path.join(__dirname, '../template');
+var template_folder = path.join(__dirname, '../templates');
 
 program
     .command('new <path>')
+    .option('-t, --type [type]', 'type of app to create basic/pipeline/website')
     .action(function(dest, options) {
         dest = path.resolve(dest);
 
-        ncp(template_folder, dest, function(err) {
+        var template = path.join(template_folder, program.type || 'basic');
+
+        ncp(template, dest, function(err) {
             if (err) {
                 return console.error(err)
             }
@@ -29,48 +32,6 @@ program
 
             console.log('Tonic site created successfully')
         });
-    });
-
-program
-    .command('run [path]')
-    .option('-c, --cached', 'render template from cache and exit')
-    .option('-d, --debug', 'print all log messaged to stdout')
-    .action(function(dir, options) {
-        var dir = dir || process.cwd();
-        dir = path.resolve(dir);
-
-        // Set up logging
-
-        // Add a console logger with timestamps and exception handling
-        winston.remove(winston.transports.Console); // Remove the default console logger
-        winston.add(winston.transports.Console, {timestamp: true, handleExceptions: true, level: options.debug ? 'debug' : 'error' });
-        winston.exitOnError = false; // Don't exit on uncaught exceptions
-
-        // If a script named app.js exists, run that instead
-        if (fs.existsSync(path.join(dir, 'app.js'))) {
-            require(path.join(dir, 'app.js'));
-        } else {
-            var config_path = path.join(dir, 'config.json');
-
-            if (fs.existsSync(config_path)) {
-                var config = require(config_path);
-
-                var tonic = new Tonic(config.templates, {
-                    cache: config.cache,
-                    offline: options.cached,
-                    timezone: config.timezone
-                });
-
-                // Add the jobs directory
-                var jobs = path.join(dir, 'jobs');
-                tonic.jobs(jobs);
-
-                // Start it off
-                tonic.start();
-            } else {
-                throw new Error('Could not start website: config.json is missing.');
-            }
-        }
     });
 
 program.parse(process.argv);
