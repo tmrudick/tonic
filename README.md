@@ -1,6 +1,8 @@
 tonic.js
 =======
 
+[![Build Status](https://travis-ci.org/tmrudick/tonic.png?branch=master)](https://travis-ci.org/tmrudick/tonic)
+
 tonic.js is a node.js framework to help build websites which contain near real-time data that is retrieved from third-party APIs. This makes it especially suited for making personal dashboards or personal websites with embedded data.
 
 Almost any datasource can be used from within tonic.js as long as it is accessible from the computer running the tonic executable. Some example datasources are Fitbit data, Yelp reviews, Facebook or Foursquare checkins, Tumblr posts, and Goodreads history. If you can write some JavaScript to access it, you can use it!
