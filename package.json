@@ -4,7 +4,8 @@
   "description": "A static site generator based on scheduled tasks",
   "main": "lib/tonic.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha",
+    "blanket": { "pattern": "/tonic/lib" }
   },
   "bin": {
     "tonic": "./bin/tonic"
@@ -23,6 +24,7 @@
     "lodash": "~1.3.1"
   },
   "devDependencies": {
-    "mocha": "1.12.0"
+    "mocha": "1.12.0",
+    "blanket": "1.1.5"
   }
 }
