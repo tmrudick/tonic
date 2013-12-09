@@ -27,12 +27,12 @@ Before you get started, you must already have [node.js](http://nodejs.org) insta
 
 ### Installing
 
-  $ npm install -g tonic
+    $ npm install -g tonic
 
 ### Creating an Empty Project
 
-  $ tonic new TonicProject
-  $ cd TonicProject ; npm install
+    $ tonic new TonicProject
+    $ cd TonicProject ; npm install
 
 This will create and setup empty project ready for you to start creating jobs.
 
@@ -40,15 +40,15 @@ This will create and setup empty project ready for you to start creating jobs.
 
 Create a new file in the jobs directory with a .js extension.
 
-  job('EveryMinute', function() {
-    console.log('Running...');
-  }).every('1min');
+    job('EveryMinute', function() {
+      console.log('Running...');
+    }).every('1min');
 
 This will create a new job that executes once every minute.
 
 ### Running
 
-  $ node app.js
+    $ node app.js
 
 This will run all registered jobs. You should see `Running...` printed out to the console once every minute.
 
@@ -56,15 +56,15 @@ This will run all registered jobs. You should see `Running...` printed out to th
 
 Create another file in the jobs directory with a .js extension.
 
-  job('RandomGenerator', function(done) {
-    var rnd = Math.random();
+    job('RandomGenerator', function(done) {
+      var rnd = Math.random();
 
-    done(rnd);
-  }).every('10 seconds');
+      done(rnd);
+    }).every('10 seconds');
 
-  job('RandomPrinter', function(done, rnd) {
-    console.log('Random:', rnd);
-  }).after('RandomGenerator');
+    job('RandomPrinter', function(done, rnd) {
+      console.log('Random:', rnd);
+    }).after('RandomGenerator');
 
 You can rerun `app.js` and you should now see a random number printed to the console every 10 seconds.
 
