@@ -19,7 +19,7 @@
 
         <header>
           <h1>tonic.js</h1>
-          <h2>Your Own Personal Dashboard</h2>
+          <h2>Event based job pipeline</h2>
         </header>
 
         <section id="downloads" class="clearfix">
@@ -34,22 +34,31 @@
           <h1>
 <a name="tonicjs" class="anchor" href="#tonicjs"><span class="octicon octicon-link"></span></a>tonic.js</h1>
 
-<p>tonic.js is a node.js framework to help build websites which contain near real-time data that is retrieved from third-party APIs. This makes it especially suited for making personal dashboards or personal websites with embedded data.</p>
+<p><a href="https://travis-ci.org/tmrudick/tonic"><img src="https://travis-ci.org/tmrudick/tonic.png?branch=master" alt="Build Status"></a></p>
 
-<p>Almost any datasource can be used from within tonic.js as long as it is accessible from the computer running the tonic executable. Some example datasources are Fitbit data, Yelp reviews, Facebook or Foursquare checkins, Tumblr posts, and Goodreads history. If you can write some JavaScript to access it, you can use it!</p>
+<p>tonic helps to build scheduled or event based job pipelines using JavaScript. It can be used to build a system of triggers similar to IFTTT but with more complex logic utilizing any data source and boolean operations.</p>
 
-<p>tonic.js works on OS X, Windows, and Linux.</p>
-
-<h2>
-<a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How It Works</h2>
+<p>Imagine you wanted to text youself whenever your favorite football team scored a touchdown. You could write a series of functions which: poll a sports API every 30 seconds and if there is a change in the score reformat the response from the API and then send a text message to your phone number. tonic allows you to write such a complex system of functions in a modular and reusable way.</p>
 
 <h2>
-<a name="why-static" class="anchor" href="#why-static"><span class="octicon octicon-link"></span></a>Why Static?</h2>
+<a name="example-uses" class="anchor" href="#example-uses"><span class="octicon octicon-link"></span></a>Example Uses</h2>
+
+<h3>
+<a name="data-driven-websites" class="anchor" href="#data-driven-websites"><span class="octicon octicon-link"></span></a>Data driven websites</h3>
+
+<p>Both <a href="http://tomrudick.com">tomrudick.com</a>, <a href="http://api.tomrudick.com">api.tomrudick.com</a>, and <a href="http://ellenchisa.com">ellenchisa.com</a> use tonic to display near-real-time data that is automatically updated.</p>
+
+<h3>
+<a name="home-automation" class="anchor" href="#home-automation"><span class="octicon octicon-link"></span></a>Home automation</h3>
+
+<p>The <a href="https://github.com/tmrudick/hue-weather-lights">hue-weather-lights</a> project uses tonic to change the colors of Philips Hue lightbulbs based on local weather conditions.</p>
+
+<p>Have another use?</p>
 
 <h2>
-<a name="getting-starting" class="anchor" href="#getting-starting"><span class="octicon octicon-link"></span></a>Getting Starting</h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h2>
 
-<p>Before you get started, you must already have <a href="http://nodejs.org/">node.js</a> installed.</p>
+<p>Before you get started, you must already have <a href="http://nodejs.org">node.js</a> installed.</p>
 
 <h3>
 <a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h3>
@@ -58,63 +67,63 @@
 </code></pre>
 
 <h3>
-<a name="creating-a-website" class="anchor" href="#creating-a-website"><span class="octicon octicon-link"></span></a>Creating a Website</h3>
+<a name="creating-an-empty-project" class="anchor" href="#creating-an-empty-project"><span class="octicon octicon-link"></span></a>Creating an Empty Project</h3>
 
-<pre><code>$ tonic new MyTonicWebsite
+<pre><code>$ tonic new TonicProject
+$ cd TonicProject ; npm install
 </code></pre>
 
-<p>This will create a skeleton website. The site contains a single job which will update the main page of the website every minute with a bad joke.</p>
+<p>This will create and setup empty project ready for you to start creating jobs.</p>
 
 <h3>
-<a name="running-your-website" class="anchor" href="#running-your-website"><span class="octicon octicon-link"></span></a>Running Your Website</h3>
+<a name="writing-a-job" class="anchor" href="#writing-a-job"><span class="octicon octicon-link"></span></a>Writing a Job</h3>
 
-<pre><code>$ tonic run MyTonicWebsite
+<p>Create a new file in the jobs directory with a .js extension.</p>
+
+<pre><code>job('EveryMinute', function() {
+  console.log('Running...');
+}).every('1min');
 </code></pre>
 
-<p>Once tonic is running, you can open index.html within the site's public directory. This page will update once a minute as long as tonic is running.</p>
-
-<p>Note that whenever you run the tonic command, all jobs will immediately run even if they are only scheduled to run at a specific time of day.</p>
-
-<h2>
-<a name="website-folder-structure" class="anchor" href="#website-folder-structure"><span class="octicon octicon-link"></span></a>Website Folder Structure</h2>
-
-<h2>
-<a name="writing-jobs" class="anchor" href="#writing-jobs"><span class="octicon octicon-link"></span></a>Writing Jobs</h2>
-
-<h2>
-<a name="writing-tempates" class="anchor" href="#writing-tempates"><span class="octicon octicon-link"></span></a>Writing Tempates</h2>
-
-<h2>
-<a name="deployment" class="anchor" href="#deployment"><span class="octicon octicon-link"></span></a>Deployment</h2>
-
-<p>You can easily deploy the static pages generated by tonic to any webserer, however, it makes more sense to have your site automatically update. In order to do this, you need to have a server that supports node.js.</p>
+<p>This will create a new job that executes once every minute.</p>
 
 <h3>
-<a name="deploying-to-your-own-server" class="anchor" href="#deploying-to-your-own-server"><span class="octicon octicon-link"></span></a>Deploying to your own server</h3>
+<a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running</h3>
 
-<p>If you have access to your own server where you can run processes, this is by far the easiest deployment method. Simply follow the same process as above and configure your webserver to serve static files from your site's public directory.</p>
+<pre><code>$ node app.js
+</code></pre>
 
-<p>It is also probably a good idea to use something like <a href="http://upstart.ubuntu.com/">upstart</a> or <a href="https://github.com/nodejitsu/forever">forever</a>.</p>
-
-<h3>
-<a name="deploying-to-heroku" class="anchor" href="#deploying-to-heroku"><span class="octicon octicon-link"></span></a>Deploying to Heroku</h3>
-
-<p>TODO</p>
+<p>This will run all registered jobs. You should see <code>Running...</code> printed out to the console once every minute.</p>
 
 <h3>
-<a name="deploying-to-windows-azure" class="anchor" href="#deploying-to-windows-azure"><span class="octicon octicon-link"></span></a>Deploying to Windows Azure</h3>
+<a name="chaining-jobs" class="anchor" href="#chaining-jobs"><span class="octicon octicon-link"></span></a>Chaining Jobs</h3>
 
-<p>TODO</p>
+<p>Create another file in the jobs directory with a .js extension.</p>
 
-<h3>
-<a name="deploying-elsewhere" class="anchor" href="#deploying-elsewhere"><span class="octicon octicon-link"></span></a>Deploying Elsewhere</h3>
+<pre><code>job('RandomGenerator', function(done) {
+  var rnd = Math.random();
 
-<p>Probably possible, feel free to update this with anything else that has worked for you.</p>
+  done(rnd);
+}).every('10 seconds');
+
+job('RandomPrinter', function(done, rnd) {
+  console.log('Random:', rnd);
+}).after('RandomGenerator');
+</code></pre>
+
+<p>You can rerun <code>app.js</code> and you should now see a random number printed to the console every 10 seconds.</p>
+
+<p>In this example, RandomGenerator will run every second and RandomPrinter will be run after RandomGenerator completes. The done callback is used to denote that a job has completely successfully. If there are no dependent jobs, calling done is optional.</p>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>Check out the entire <a href="http://tonicjs.org/docs">documentation</a> for more information.</p>
         </section>
 
         <footer>
           tonic.js is maintained by <a href="https://github.com/tmrudick">tmrudick</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
         </footer>
 
         
