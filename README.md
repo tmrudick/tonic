@@ -14,7 +14,7 @@ Example Uses
 
 [tomrudick.com](http://tomrudick.com), [api.tomrudick.com](http://api.tomrudick.com), and [ellenchisa.com](http://ellenchisa.com) all use tonic to display near-real-time data that is automatically updated.
 
-You can get examples of specific jobs [here](https://github.com/tmrudick/tomrudick.com/tree/master/jobs) or [here](https://github.com/ellenchisa/website/tree/master/jobs)
+You can get examples of specific jobs [here](https://github.com/tmrudick/tomrudick.com/tree/master/jobs) or [here](https://github.com/ellenchisa/website/tree/master/jobs).
 
 ### Home automation
 
