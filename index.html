@@ -4,9 +4,9 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -32,55 +32,64 @@
 
         <section id="main_content">
           <h1>
-<a name="tonicjs" class="anchor" href="#tonicjs"><span class="octicon octicon-link"></span></a>tonic.js</h1>
+<a id="tonicjs" class="anchor" href="#tonicjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>tonic.js</h1>
 
 <p><a href="https://travis-ci.org/tmrudick/tonic"><img src="https://travis-ci.org/tmrudick/tonic.png?branch=master" alt="Build Status"></a></p>
 
 <p>tonic helps to build scheduled or event based job pipelines using JavaScript. It can be used to build a system of triggers similar to IFTTT but with more complex logic utilizing any data source and boolean operations.</p>
 
-<p>Imagine you wanted to text youself whenever your favorite football team scored a touchdown. You could write a series of functions which: poll a sports API every 30 seconds and if there is a change in the score reformat the response from the API and then send a text message to your phone number. tonic allows you to write such a complex system of functions in a modular and reusable way.</p>
+<p>Imagine you wanted to text yourself whenever your favorite team scores a goal. You could write a series of functions which: poll a sports API every 30 seconds and if there is a change in the score reformat the response from the API and then send a text message to your phone number. tonic allows you to write a complex system of functions in a modular and reusable way.</p>
 
 <h2>
-<a name="example-uses" class="anchor" href="#example-uses"><span class="octicon octicon-link"></span></a>Example Uses</h2>
+<a id="example-uses" class="anchor" href="#example-uses" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example Uses</h2>
 
 <h3>
-<a name="data-driven-websites" class="anchor" href="#data-driven-websites"><span class="octicon octicon-link"></span></a>Data driven websites</h3>
+<a id="data-driven-websites" class="anchor" href="#data-driven-websites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data driven websites</h3>
 
-<p>Both <a href="http://tomrudick.com">tomrudick.com</a>, <a href="http://api.tomrudick.com">api.tomrudick.com</a>, and <a href="http://ellenchisa.com">ellenchisa.com</a> use tonic to display near-real-time data that is automatically updated.</p>
+<p><a href="http://tomrudick.com">tomrudick.com</a>, <a href="http://api.tomrudick.com">api.tomrudick.com</a>, and <a href="http://ellenchisa.com">ellenchisa.com</a> all use tonic to display near-real-time data that is automatically updated.</p>
+
+<p>You can get examples of specific jobs <a href="https://github.com/tmrudick/tomrudick.com/tree/master/jobs">here</a> or <a href="https://github.com/ellenchisa/website/tree/master/jobs">here</a>.</p>
 
 <h3>
-<a name="home-automation" class="anchor" href="#home-automation"><span class="octicon octicon-link"></span></a>Home automation</h3>
+<a id="home-automation" class="anchor" href="#home-automation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Home automation</h3>
 
 <p>The <a href="https://github.com/tmrudick/hue-weather-lights">hue-weather-lights</a> project uses tonic to change the colors of Philips Hue lightbulbs based on local weather conditions.</p>
 
-<p>Have another use?</p>
+<p>Have another usecase?</p>
 
 <h2>
-<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
 
 <p>Before you get started, you must already have <a href="http://nodejs.org">node.js</a> installed.</p>
 
 <h3>
-<a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h3>
+<a id="installing" class="anchor" href="#installing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing</h3>
 
-<pre><code>$ npm install -g tonic
+<pre><code>$ npm install tonic --save
 </code></pre>
 
+<p>This will install tonic into your project and save it as a dependency in your <code>package.json</code>.</p>
+
+<h2>
+<a id="create-a-new-application" class="anchor" href="#create-a-new-application" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a New Application</h2>
+
+<p>Create a file called app.js.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> tonic <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>tonic<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> app <span class="pl-k">=</span> <span class="pl-en">tonic</span>();
+<span class="pl-smi">app</span>.<span class="pl-en">jobs</span>(<span class="pl-s"><span class="pl-pds">'</span>jobs<span class="pl-pds">'</span></span>); <span class="pl-c">// A directory called jobs must exist</span>
+<span class="pl-smi">app</span>.<span class="pl-c1">start</span>();
+</pre></div>
+
+<p>This application won't do anything yet since we haven't defined any jobs.</p>
+
 <h3>
-<a name="creating-an-empty-project" class="anchor" href="#creating-an-empty-project"><span class="octicon octicon-link"></span></a>Creating an Empty Project</h3>
-
-<pre><code>$ tonic new TonicProject
-$ cd TonicProject ; npm install
-</code></pre>
-
-<p>This will create and setup empty project ready for you to start creating jobs.</p>
-
-<h3>
-<a name="writing-a-job" class="anchor" href="#writing-a-job"><span class="octicon octicon-link"></span></a>Writing a Job</h3>
+<a id="writing-a-job" class="anchor" href="#writing-a-job" aria-hidden="true"><span class="octicon octicon-link"></span></a>Writing a Job</h3>
 
 <p>Create a new file in the jobs directory with a .js extension.</p>
 
-<pre><code>job('EveryMinute', function() {
+<pre><code>job('EveryMinute', function(done) {
   console.log('Running...');
 }).every('1min');
 </code></pre>
@@ -88,7 +97,7 @@ $ cd TonicProject ; npm install
 <p>This will create a new job that executes once every minute.</p>
 
 <h3>
-<a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running</h3>
+<a id="running" class="anchor" href="#running" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running</h3>
 
 <pre><code>$ node app.js
 </code></pre>
@@ -96,7 +105,7 @@ $ cd TonicProject ; npm install
 <p>This will run all registered jobs. You should see <code>Running...</code> printed out to the console once every minute.</p>
 
 <h3>
-<a name="chaining-jobs" class="anchor" href="#chaining-jobs"><span class="octicon octicon-link"></span></a>Chaining Jobs</h3>
+<a id="chaining-jobs" class="anchor" href="#chaining-jobs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chaining Jobs</h3>
 
 <p>Create another file in the jobs directory with a .js extension.</p>
 
@@ -111,19 +120,27 @@ job('RandomPrinter', function(done, rnd) {
 }).after('RandomGenerator');
 </code></pre>
 
-<p>You can rerun <code>app.js</code> and you should now see a random number printed to the console every 10 seconds.</p>
+<p>Now, rerun <code>app.js</code> and you should now see a random number printed to the console every 10 seconds.</p>
 
 <p>In this example, RandomGenerator will run every second and RandomPrinter will be run after RandomGenerator completes. The done callback is used to denote that a job has completely successfully. If there are no dependent jobs, calling done is optional.</p>
 
 <h2>
-<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+<a id="extensions" class="anchor" href="#extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extensions</h2>
+
+<ul>
+<li>
+<a href="https://github.com/tmrudick/tonic-hbs">tonic-hbs</a> - Extension to output the results of jobs running via Handlebars templates. Useful for creating dynamic websites or other dynamic content.</li>
+</ul>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
 <p>Check out the entire <a href="http://tonicjs.org/docs">documentation</a> for more information.</p>
         </section>
 
         <footer>
           tonic.js is maintained by <a href="https://github.com/tmrudick">tmrudick</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
         </footer>
 
         
