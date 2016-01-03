@@ -1,6 +1,6 @@
 
 var assert = require('assert'),
-    Tonic = require('../lib/tonic'),
+    tonic = require('../lib/tonic'),
     Job = require('../lib/job'),
     path = require('path');
 
@@ -10,20 +10,20 @@ describe('Configuration', function() {
     it('will assume default file paths if config is not given', function(done) {
         var options = {};
 
-        var tonic = new Tonic(options); // no options
+        var app = tonic(options); // no options
 
         // Options defaults are working
         assert.equal(options.config, 'config.json');
         assert.equal(options.cache, 'data_cache.json');
 
         // Config is an object (empty)
-        assert.equal(typeof(tonic._config), 'object');
-        assert.equal(Object.keys(tonic._config).length, 0);
+        assert.equal(typeof(app._config), 'object');
+        assert.equal(Object.keys(app._config).length, 0);
 
         // Cache object exists and is empty
-        assert.ok(tonic._cache.filename);
-        assert.equal(typeof(tonic._cache.data), 'object');
-        assert.equal(Object.keys(tonic._cache.data).length, 0);
+        assert.ok(app._cache.filename);
+        assert.equal(typeof(app._cache.data), 'object');
+        assert.equal(Object.keys(app._cache.data).length, 0);
 
         done();
     });
@@ -35,9 +35,9 @@ describe('Configuration', function() {
             cache: 'test/fixtures/test-data-cache.json'
         };
 
-        var tonic = new Tonic(options);
-        assert.equal(tonic._config.option, 'value');
-        assert.equal(tonic._cache.data.job, 'Some previous value');
+        var app = tonic(options);
+        assert.equal(app._config.option, 'value');
+        assert.equal(app._cache.data.job, 'Some previous value');
 
         done();
     });
@@ -47,9 +47,9 @@ describe('Configuration', function() {
             config: 'some-file-that-doesnt-exist.json'
         };
 
-        var tonic = new Tonic(options);
-        assert.equal(typeof(tonic._config), 'object');
-        assert.equal(Object.keys(tonic._config).length, 0);
+        var app = tonic(options);
+        assert.equal(typeof(app._config), 'object');
+        assert.equal(Object.keys(app._config).length, 0);
 
         done();
     });
@@ -57,9 +57,9 @@ describe('Configuration', function() {
 
 describe('Loading Jobs', function() {
     it('will load a single job file', function(done) {
-        var tonic = new Tonic();
-        tonic.jobs('test/fixtures/single-job.js');
-        tonic.start();
+        var app = tonic();
+        app.jobs('test/fixtures/single-job.js');
+        app.start();
 
         setTimeout(function() {
             assert.ok(global.singleJob);
@@ -68,9 +68,9 @@ describe('Loading Jobs', function() {
     });
 
     it('will load a directory of job files', function(done) {
-        var tonic = new Tonic();
-        tonic.jobs('test/fixtures/jobs');
-        tonic.start();
+        var app = tonic();
+        app.jobs('test/fixtures/jobs');
+        app.start();
 
         setTimeout(function() {
             assert.ok(global.jobone);
@@ -82,13 +82,13 @@ describe('Loading Jobs', function() {
     it('will load modules from node_module directory');
 
     it('will load an already constructed job object', function(done) {
-        var tonic = new Tonic();
+        var app = tonic();
         var job = new Job('Name', {}, function() {
             global.constructedJob = true;
         }).once();
 
-        tonic.jobs(job);
-        tonic.start();
+        app.jobs(job);
+        app.start();
 
         setTimeout(function() {
             assert.ok(global.constructedJob);
@@ -99,10 +99,10 @@ describe('Loading Jobs', function() {
 
 describe('Job creation', function() {
     it('should create jobs without a name', function(done) {
-        var tonic = new Tonic();
-        tonic.jobs('test/fixtures/job-without-id.js');
+        var app = tonic();
+        app.jobs('test/fixtures/job-without-id.js');
 
-        var jobIds = Object.keys(tonic._jobs);
+        var jobIds = Object.keys(app._jobs);
 
         // Only one job
         assert.equal(jobIds.length, 1);
@@ -111,10 +111,10 @@ describe('Job creation', function() {
         assert.equal(jobIds[0].length, 5);
 
         // No name
-        assert.equal(tonic._jobs[jobIds[0]].name, null);
+        assert.equal(app._jobs[jobIds[0]].name, null);
 
         // Still runs!
-        tonic.start();
+        app.start();
 
         setTimeout(function() {
             assert.ok(global.jobWithNoName);
@@ -123,10 +123,10 @@ describe('Job creation', function() {
     });
 
     it('will not load two jobs with the same id', function(done) {
-        var tonic = new Tonic();
+        var app = tonic();
 
         assert.throws(function() {
-            tonic.jobs('test/fixtures/duplicate-jobs.js');
+            app.jobs('test/fixtures/duplicate-jobs.js');
         }, /Job 'BadJob' already defined/);
 
         done();
@@ -135,7 +135,7 @@ describe('Job creation', function() {
 
 describe('Run state', function() {
     it('should be able to start and stop running', function(done) {
-        var tonic = new Tonic();
+        var app = tonic();
 
         global.runStateCount = 0;
         var job = new Job(null, {}, function() {
@@ -145,13 +145,13 @@ describe('Run state', function() {
             global.runStateCount++;
         }).once().every('1s');
 
-        tonic.jobs(job);
+        app.jobs(job);
 
-        assert.ok(!tonic.running);
-        tonic.start();
-        assert.ok(tonic.running);
-        tonic.stop();
-        assert.ok(!tonic.running);
+        assert.ok(!app.running);
+        app.start();
+        assert.ok(app.running);
+        app.stop();
+        assert.ok(!app.running);
 
         setTimeout(function() {
             assert.equal(global.runStateCount, 1);
@@ -164,9 +164,9 @@ describe('Job dependency graph creation', function() {
     it('should not allow taking a dependency on an undefined job', function(done) {
         var jobA = new Job('A', {}, emptyFunc).after('DoesNotExist');
 
-        var tonic = new Tonic();
-        tonic.jobs(jobA);
-        assert.throws(function() { tonic.start(); }, /Job 'DoesNotExist' does not exist/);
+        var app = tonic();
+        app.jobs(jobA);
+        assert.throws(function() { app.start(); }, /Job 'DoesNotExist' does not exist/);
         done();
     });
 
@@ -174,11 +174,11 @@ describe('Job dependency graph creation', function() {
         var jobA = new Job('A', {}, emptyFunc);
         var jobB = new Job('B', {}, emptyFunc).after('A');
 
-        var tonic = new Tonic();
-        tonic.jobs(jobA);
-        tonic.jobs(jobB);
+        var app = tonic();
+        app.jobs(jobA);
+        app.jobs(jobB);
 
-        tonic.start();
+        app.start();
 
         assert.equal(jobB.dependencies[0], jobA.name);
         done();
@@ -189,15 +189,15 @@ describe('Job dependency graph creation', function() {
         var jobB = new Job('B', {}, emptyFunc);
         var jobC = new Job('C', {}, emptyFunc).after('*');
 
-        var tonic = new Tonic();
-        tonic.jobs(jobA);
-        tonic.jobs(jobB);
-        tonic.jobs(jobC);
+        var app = tonic();
+        app.jobs(jobA);
+        app.jobs(jobB);
+        app.jobs(jobC);
 
         assert.equal(jobC.dependencies.length, 1);
         assert.equal(jobC.dependencies[0], '*');
 
-        tonic.start();
+        app.start();
 
         assert.equal(jobC.dependencies.length, 3);
         assert.equal(jobC.dependencies[0], '*');
@@ -211,8 +211,8 @@ describe('Job dependency graph creation', function() {
         var jobA = new Job('A', {}, emptyFunc).after('*');
         var jobB = new Job('B', {}, emptyFunc).after('*');
 
-        var tonic = new Tonic();
-        tonic.jobs(jobA).jobs(jobB);
+        var app = tonic();
+        app.jobs(jobA).jobs(jobB);
 
         // Before we start tonic
         assert.equal(jobA.dependencies.length, 1);
@@ -220,7 +220,7 @@ describe('Job dependency graph creation', function() {
         assert.equal(jobA.dependencies[0], '*');
         assert.equal(jobB.dependencies[0], '*');
 
-        tonic.start();
+        app.start();
 
         // Only one tonic listener which writes data to disk
         assert.equal(jobA.listeners('done').length, 1);
@@ -234,9 +234,9 @@ describe('Job dependency graph creation', function() {
         var jobB = new Job('B', {}, emptyFunc);
         var jobC = new Job('C', {}, emptyFunc).after('A').after('B');
 
-        var tonic = new Tonic();
-        tonic.jobs(jobA).jobs(jobB).jobs(jobC);
-        tonic.start();
+        var app = tonic();
+        app.jobs(jobA).jobs(jobB).jobs(jobC);
+        app.start();
 
         assert.equal(jobC.dependencies.length, 2);
         assert.equal(jobC.dependencies[0], jobA.name);
@@ -252,8 +252,8 @@ describe('Job dependency graph creation', function() {
             done();
         }).after('A');
 
-        var tonic = new Tonic();
-        tonic.jobs(jobA).jobs(jobB);
-        tonic.start();
+        var app = tonic();
+        app.jobs(jobA).jobs(jobB);
+        app.start();
     });
 });
