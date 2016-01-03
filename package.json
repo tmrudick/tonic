@@ -19,11 +19,8 @@
   "author": "Tom Rudick <tmrudick@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "commander": "1.1.1",
     "cron": "~1.0.1",
     "lodash": "^3.0.0",
-    "ncp": "0.4.0",
-    "winston": "~0.7.1"
   },
   "devDependencies": {
     "mocha": "1.12.0",
