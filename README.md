@@ -5,7 +5,7 @@ tonic.js
 
 tonic helps to build scheduled or event based job pipelines using JavaScript. It can be used to build a system of triggers similar to IFTTT but with more complex logic utilizing any data source and boolean operations.
 
-Imagine you wanted to text yourself whenever your favorite football team scored a touchdown. You could write a series of functions which: poll a sports API every 30 seconds and if there is a change in the score reformat the response from the API and then send a text message to your phone number. tonic allows you to write such a complex system of functions in a modular and reusable way.
+Imagine you wanted to text yourself whenever your favorite team scores a goal. You could write a series of functions which: poll a sports API every 30 seconds and if there is a change in the score reformat the response from the API and then send a text message to your phone number. tonic allows you to write a complex system of functions in a modular and reusable way.
 
 Example Uses
 ------------
@@ -29,20 +29,30 @@ Before you get started, you must already have [node.js](http://nodejs.org) insta
 
 ### Installing
 
-    $ npm install -g tonic
+    $ npm install tonic --save
 
-### Creating an Empty Project
+This will install tonic into your project and save it as a dependency in your `package.json`.
 
-    $ tonic new TonicProject
-    $ cd TonicProject ; npm install
+## Create a New Application
 
-This will create and setup empty project ready for you to start creating jobs.
+Create a file called app.js.
+
+```js
+var tonic = require('tonic');
+
+var app = tonic();
+app.jobs('jobs'); // A directory called jobs must exist
+app.start();
+
+```
+
+This application won't do anything yet since we haven't defined any jobs.
 
 ### Writing a Job
 
 Create a new file in the jobs directory with a .js extension.
 
-    job('EveryMinute', function() {
+    job('EveryMinute', function(done) {
       console.log('Running...');
     }).every('1min');
 
@@ -68,9 +78,14 @@ Create another file in the jobs directory with a .js extension.
       console.log('Random:', rnd);
     }).after('RandomGenerator');
 
-You can rerun `app.js` and you should now see a random number printed to the console every 10 seconds.
+Now, rerun `app.js` and you should now see a random number printed to the console every 10 seconds.
 
 In this example, RandomGenerator will run every second and RandomPrinter will be run after RandomGenerator completes. The done callback is used to denote that a job has completely successfully. If there are no dependent jobs, calling done is optional.
+
+Extensions
+----------
+
+* [tonic-hbs](https://github.com/tmrudick/tonic-hbs) - Extension to output the results of jobs running via Handlebars templates. Useful for creating dynamic websites or other dynamic content.
 
 Documentation
 -------------
