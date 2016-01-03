@@ -52,9 +52,11 @@ This application won't do anything yet since we haven't defined any jobs.
 
 Create a new file in the jobs directory with a .js extension.
 
+```js
     job('EveryMinute', function(done) {
       console.log('Running...');
     }).every('1min');
+```
 
 This will create a new job that executes once every minute.
 
@@ -68,6 +70,7 @@ This will run all registered jobs. You should see `Running...` printed out to th
 
 Create another file in the jobs directory with a .js extension.
 
+```js
     job('RandomGenerator', function(done) {
       var rnd = Math.random();
 
@@ -77,6 +80,7 @@ Create another file in the jobs directory with a .js extension.
     job('RandomPrinter', function(done, rnd) {
       console.log('Random:', rnd);
     }).after('RandomGenerator');
+```
 
 Now, rerun `app.js` and you should now see a random number printed to the console every 10 seconds.
 
