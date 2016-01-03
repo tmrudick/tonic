@@ -9,9 +9,6 @@
       "pattern": "/tonic/lib"
     }
   },
-  "bin": {
-    "tonic": "./bin/tonic"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tmrudick/tonic.git"
