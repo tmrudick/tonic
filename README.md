@@ -90,8 +90,3 @@ Extensions
 ----------
 
 * [tonic-hbs](https://github.com/tmrudick/tonic-hbs) - Extension to output the results of jobs running via Handlebars templates. Useful for creating dynamic websites or other dynamic content.
-
-Documentation
--------------
-
-Check out the entire [documentation](http://tonicjs.org/docs) for more information.
